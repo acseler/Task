@@ -1,4 +1,4 @@
-package DAO.Entities;
+package com.taskManager.DAO.Entities;
 
 import javax.persistence.*;
 
@@ -17,9 +17,8 @@ public class Project {
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "ID")
-    private User user;
+    @Column(name = "USER_ID")
+    private long user;
 
     public long getId() {
         return id;
@@ -37,11 +36,11 @@ public class Project {
         this.name = name;
     }
 
-    public User getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(long user) {
         this.user = user;
     }
 

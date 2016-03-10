@@ -1,6 +1,4 @@
-package DAO.Entities;
-
-import com.sun.corba.se.impl.encoding.BufferManagerWriteCollect;
+package com.taskManager.DAO.Entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,14 +27,13 @@ public class Task {
     private Date deadlineDate;
 
     @Column(name = "STATUS")
-    private Boolean status;
+    private String status;
 
     @Column(name = "PRIORITY")
     private String priority;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Project project;
+    @Column(name = "project")
+    private long project;
 
     public long getId() {
         return id;
@@ -78,19 +75,19 @@ public class Task {
         this.priority = priority;
     }
 
-    public Project getProject() {
+    public long getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(long project) {
         this.project = project;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

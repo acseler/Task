@@ -1,4 +1,4 @@
-package DAO.Entities;
+package com.taskManager.DAO.Entities;
 
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ public class User {
     @Column(name = "ID")
     private long id;
 
-    @Column(name = "LOGIN")
+    @Column(name = "LOGIN", unique = true)
     private String login;
 
     @Column(name = "PASSWORD")
