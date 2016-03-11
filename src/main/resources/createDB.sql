@@ -1,3 +1,8 @@
+CREATE TABLE public.ids (
+  table_name varchar(50) PRIMARY KEY,
+  id_value int
+);
+
 CREATE TABLE public.users (
   id BIGINT PRIMARY KEY,
   login VARCHAR(255) NOT NULL,
@@ -16,9 +21,9 @@ CREATE TABLE public.tasks (
   id BIGINT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   create_date DATE NOT NULL,
-  deadline_date DATE NOT NULL,
-  status VARCHAR(15) NOT NULL,
-  priority VARCHAR(15) NOT NULL,
+  deadline_date DATE,
+  status VARCHAR(15),
+  priority VARCHAR(15),
   project BIGINT NOT NULL,
   CONSTRAINT project_foreignkey FOREIGN KEY (project) REFERENCES projects(id)
 );

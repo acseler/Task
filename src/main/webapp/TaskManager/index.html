@@ -2,19 +2,131 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Wellcome to Create Your Universe</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css"/>
+    <title>SIMPLE TODO LISTS</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
     <meta name="viewport" content="width=device-width,
 									initial-scale=1.0,
 									maximum-scale=1.0,
 									user-scalable=no">
 </head>
-<body ng-app="CreateYourUniverse">
+<body ng-app="TaskManager" ng-init="projectName = {data : ''};
+                                    taskToUpdate = {data: ''}">
+<div class="container grad" ng-controller="projectController">
+    <div class="row">
+        <header class="header">
+            <div class="container">
+                <h3 class="text-center"><strong>SIMPLE TODO LISTS</strong></h3>
 
+                <p class="text-center">FROM RUBY GARAGE</p>
+            </div>
+        </header>
+    </div>
+    <div class="row" >
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel panel-primary" ng-repeat="p in projects">
+                <div class="panel-heading">
+                    {{p.name}}
+                </div>
+                <table class="table">
+                    <thead>
+                    <input type="text" ng-model="taskName"/>
+                    <button class="btn btn-primary btn-sm" ng-click="addTask(p.id, taskName)">
+                        Add task</button>
+                    </thead>
+                    <tr ng-repeat="task in p.tasks">
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>
+                            {{task.name}}
+                        </td>
+                        <td>
+                            {{task.deadlineDate}}
+                        </td>
+                        <td>
+                            {{task.priority}}
+                        </td>
+                        <td>
+                            {{task.status}}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModal" ng-click="callEditTask(task); taskToUpdate.data = task;">edit</button>
+                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#deleteModal" ng-click="deleteTask(task)">delete</button>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <button class="btn btn-primary btn-lg col-md-12">Add TODO List</button>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <p class="text-center">&copy; Ruby Garage</p>
+        </div>
+    </footer>
+    <!-- Modal  update task-->
+    <div id="updateModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body col-md-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="taskName">Task name</label>
+                            <input type="text" class="form-control" id="taskName" ng-model="taskName"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="datapicker" class="control-label">Deadline</label>
+                            <input type="text" class="span2 form-control" id="datapicker" >
+                        </div>
+                        <div class="form-group">
+                            <label for="selectPriority">Choose priority</label>
+                            <select class="form-control" id="selectPriority">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="control-label">Status</label>
+                            <select class="form-control" id="status">
+                                <option value="In process">In process</option>
+                                <option value="Done">Done</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="updateTask(taskToUpdate.data)" data-dismiss="modal">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-<script src="scripts/jquery-1.11.3.min.js"></script>
+
+<script src="scripts/jquery-1.12.1.min.js"></script>
 <script src="scripts/bootstrap.min.js"></script>
 <script src="scripts/angular.min.js"></script>
+<script src="scripts/bootstrap-datepicker.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/taskManager.js"></script>
 </body>
 </html>

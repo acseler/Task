@@ -1,6 +1,7 @@
 package com.taskManager.DAO.Entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by boduill on 09.03.16.
@@ -10,21 +11,31 @@ import javax.persistence.*;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGenerator")
+    @TableGenerator(
+            name = "idGenerator",
+            table = "IDS",
+            pkColumnName = "table_name",
+            valueColumnName = "id_value",
+            allocationSize = 100
+    )
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "USER_ID")
-    private long user;
+    private Long user;
 
-    public long getId() {
+    @Transient
+    private List<Task> tasks;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,12 +47,20 @@ public class Project {
         this.name = name;
     }
 
-    public long getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(long user) {
+    public void setUser(Long user) {
         this.user = user;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override

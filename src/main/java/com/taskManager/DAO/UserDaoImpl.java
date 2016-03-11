@@ -1,26 +1,26 @@
 package com.taskManager.DAO;
 
 import com.taskManager.DAO.Entities.User;
-import com.taskManager.DAO.Interfaces.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by boduill on 09.03.16.
  */
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl {
 
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
-    @Override
+    @Transactional
     public void addUser(User user) {
         hibernateTemplate.persist(user);
     }
 
-    @Override
+    @Transactional
     public User getUser(String login) {
         return hibernateTemplate.findByExample(getUserExample(login)).get(0);
     }

@@ -11,9 +11,16 @@ import java.util.Date;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGenerator")
+    @TableGenerator(
+            name = "idGenerator",
+            table = "IDS",
+            pkColumnName = "table_name",
+            valueColumnName = "id_value",
+            allocationSize = 100
+    )
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
@@ -33,13 +40,13 @@ public class Task {
     private String priority;
 
     @Column(name = "project")
-    private long project;
+    private Long project;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,11 +82,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public long getProject() {
+    public Long getProject() {
         return project;
     }
 
-    public void setProject(long project) {
+    public void setProject(Long project) {
         this.project = project;
     }
 
@@ -89,5 +96,18 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createDate=" + createDate +
+                ", deadlineDate=" + deadlineDate +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
+                ", project=" + project +
+                '}';
     }
 }

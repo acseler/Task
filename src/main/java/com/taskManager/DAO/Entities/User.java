@@ -10,9 +10,15 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGenerator")
+    @TableGenerator(
+            name = "idGenerator",
+            table = "IDS",
+            pkColumnName = "table_name",
+            valueColumnName = "id_value",
+            allocationSize = 100
+    )
+    private Long id;
 
     @Column(name = "LOGIN", unique = true)
     private String login;
@@ -20,11 +26,11 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
