@@ -1,7 +1,9 @@
 package com.taskManager.DAO;
 
 import com.taskManager.DAO.Entities.Project;
+import com.taskManager.DAO.Entities.Task;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
@@ -22,6 +24,9 @@ public class ProjectDaoImpl {
     @Autowired
     private UserDaoImpl userDao;
 
+    @Autowired
+    private TaskDaoImpl taskDao;
+
     @Transactional
     public void addProject(Project project) {
         hibernateTemplate.persist(project);
@@ -34,6 +39,8 @@ public class ProjectDaoImpl {
 
     @Transactional
     public void deleteProject(Project project) {
+        List<Task> tasks = taskDao.getTasks(project.getId());
+        hibernateTemplate.deleteAll(tasks);
         hibernateTemplate.delete(project);
     }
 
@@ -41,7 +48,7 @@ public class ProjectDaoImpl {
     public List<Project> getProjects(String user) {
         long id = userDao.getUser(user).getId();
         return (List<Project>) hibernateTemplate.findByCriteria(DetachedCriteria.forClass(Project.class).add(
-                Restrictions.eq("user", id)));
+                Restrictions.eq("user", id)).addOrder(Order.asc("name")));
     }
 
     @Transactional

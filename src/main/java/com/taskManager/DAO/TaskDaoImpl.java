@@ -3,6 +3,7 @@ package com.taskManager.DAO;
 import com.taskManager.DAO.Entities.Project;
 import com.taskManager.DAO.Entities.Task;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
@@ -39,9 +40,9 @@ public class TaskDaoImpl {
     }
 
     @Transactional
-    public List<Task> getTasks(String user, String project) {
-        Project p = projectDao.getProject(user, project);
-        List<Task> tasks = (List<Task>) hibernateTemplate.findByCriteria(DetachedCriteria.forClass(Task.class).add(Restrictions.eq("project", p.getId())));
+    public List<Task> getTasks(Long pId) {
+        List<Task> tasks = (List<Task>) hibernateTemplate.findByCriteria(DetachedCriteria.forClass(Task.class)
+                .add(Restrictions.eq("project", pId)).addOrder(Order.asc("name")));
         return tasks;
     }
 }

@@ -4,15 +4,15 @@ package com.taskManager.DAO.Enums;
  * Created by boduill on 11.03.16.
  */
 public enum PriorityEnum {
-    LOW("Low"), MEDIUM("Medium"), HIGH("High");
+    LOW(1), MEDIUM(2), HIGH(3);
 
-    private String value;
+    private Integer value;
 
-    private PriorityEnum(String value) {
+    private PriorityEnum(Integer value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 }

@@ -2,6 +2,7 @@ package com.taskManager.Service;
 
 import com.taskManager.DAO.Entities.Project;
 import com.taskManager.DAO.Entities.Task;
+import com.taskManager.DAO.Entities.User;
 import com.taskManager.DAO.Enums.PriorityEnum;
 import com.taskManager.DAO.Enums.TaskStatus;
 import com.taskManager.DAO.ProjectDaoImpl;
@@ -31,17 +32,20 @@ public class RestController {
     @Autowired
     private TaskDaoImpl taskDao;
 
+    @Autowired
+    private LoginService loginService;
+
     @RequestMapping(value = "{user}/projects", method = RequestMethod.GET)
     ResponseEntity<List<Project>> getProjects(@PathVariable String user) {
         List<Project> projects = projectDao.getProjects(user);
         for (Project p : projects) {
-            p.setTasks(taskDao.getTasks(user, p.getName()));
+            p.setTasks(taskDao.getTasks(p.getId()));
         }
         return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{user}/project/task/add", method = RequestMethod.POST)
-    ResponseEntity<Void> addTask(@RequestBody Task task) {
+    ResponseEntity<Void> createTask(@RequestBody Task task) {
         task.setCreateDate(new Date());
         task.setPriority(PriorityEnum.LOW.getValue());
         task.setStatus(TaskStatus.IN_PROCESS.getValue());
@@ -57,9 +61,38 @@ public class RestController {
 
     @RequestMapping(value = "{user}/project/task/delete", method = RequestMethod.POST)
     ResponseEntity<Void> deleteTask(@RequestBody Task task) {
-        System.out.println("!!!!!!!!!!!!!!!!!");
         taskDao.deleteTask(task);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "{userId}/project/create/{projectName}", method = RequestMethod.POST)
+    ResponseEntity<Void> createProject(@PathVariable String userId, @PathVariable String projectName) {
+        Project project = new Project();
+        project.setUser(Long.parseLong(userId));
+        project.setName(projectName);
+        projectDao.addProject(project);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{user}/project/update", method = RequestMethod.POST)
+    ResponseEntity<Void> updateProject(@RequestBody Project project) {
+        projectDao.updateProject(project);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{user}/project/delete", method = RequestMethod.POST)
+    ResponseEntity<Void> deleteProject(@RequestBody Project project) {
+        projectDao.deleteProject(project);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ResponseEntity<User> doLogin(@RequestBody User user) {
+        return new ResponseEntity<User>(loginService.checkUser(user), HttpStatus.OK);
+    }
+
+
+
+
 
 }

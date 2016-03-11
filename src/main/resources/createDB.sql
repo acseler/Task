@@ -23,7 +23,7 @@ CREATE TABLE public.tasks (
   create_date DATE NOT NULL,
   deadline_date DATE,
   status VARCHAR(15),
-  priority VARCHAR(15),
+  priority INTEGER,
   project BIGINT NOT NULL,
   CONSTRAINT project_foreignkey FOREIGN KEY (project) REFERENCES projects(id)
 );

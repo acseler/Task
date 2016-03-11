@@ -6,6 +6,8 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by boduill on 09.03.16.
  */
@@ -22,7 +24,8 @@ public class UserDaoImpl {
 
     @Transactional
     public User getUser(String login) {
-        return hibernateTemplate.findByExample(getUserExample(login)).get(0);
+        List<User> users = hibernateTemplate.findByExample(getUserExample(login));
+        return users.isEmpty() ? null : users.get(0);
     }
 
     private User getUserExample(String login) {

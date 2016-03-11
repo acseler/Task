@@ -6,10 +6,25 @@
     margin-bottom: 0;
 }
 
-.grad {
-    background-image: url("/img/orange-light-4.jpg");
-}
-
 .datepicker {
     z-index: 1100;
+}
+
+.full-circle {
+    height: 15px;
+    -moz-border-radius:75px;
+    -webkit-border-radius: 75px;
+    width: 15px;
+}
+
+.red {
+    background-color: #ad1417;
+}
+
+.yellow {
+    background-color: #ada906;
+}
+
+.green {
+    background-color: #0ead00;
 }

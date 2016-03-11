@@ -37,7 +37,7 @@ public class Task {
     private String status;
 
     @Column(name = "PRIORITY")
-    private String priority;
+    private Integer priority;
 
     @Column(name = "project")
     private Long project;
@@ -74,11 +74,11 @@ public class Task {
         this.deadlineDate = deadlineDate;
     }
 
-    public String getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
