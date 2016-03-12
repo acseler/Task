@@ -14,21 +14,24 @@
 <body ng-app="TaskManager" ng-controller="projectController" ng-init="taskToUpdate = {data: ''};
                                                                         projectToUpdate = {data: ''};
                                                                         createEdit = {data: ''};
-                                                                        loginFlag = true">
+                                                                        loginFlag = {data: true}">
 <div class="container">
     <div class="row">
         <header class="header">
             <div class="container">
                 <h3 class="text-center"><strong>SIMPLE TODO LISTS</strong></h3>
                 <p class="text-center">FROM RUBY GARAGE</p>
+                <button type="button" class="btn btn-primary" ng-show="loginFlag.data == false" ng-click="logOut()">Log out</button>
             </div>
         </header>
     </div>
 </div>
 
-<div class="container" ng-show="loginFlag == true" ng-init="loginSuccess = true">
-    <div class="row">
-        <form class="col-md-offset-3 col-md-6">
+<div class="container" ng-show="loginFlag.data == true" ng-init="loginSuccess = true;
+                                                                 registrationFlag = {data: false};
+                                                                 successRegistration = {data: false}">
+    <div class="row" ng-show="registrationFlag.data == false">
+        <form class="col-md-offset-3 col-md-6" ng-submit="login()">
             <div class="row">
                 <h3 class="text-center">
                     Welcome to Task manager
@@ -36,27 +39,54 @@
             </div>
             <div class="form-group">
                 <label for="login" class="control-label">Login</label>
-                <input type="text" id="login" class="form-control"/>
+                <input type="text" id="login" class="form-control" required/>
             </div>
             <div class="form-group">
                 <label for="password" class="control-label">Password</label>
-                <input type="password" id="password" class="form-control"/>
+                <input type="password" id="password" class="form-control" required/>
                 <p ng-show="loginSuccess != true" class="has-error">Login or password incorrect</p>
             </div>
-            <button type="button" class="btn btn-primary col-md-12" ng-click="login()">Log in</button>
+            <button type="submit" class="btn btn-primary col-md-12">Log in</button>
+            <button type="button" class="btn btn-default col-md-12" ng-click="registrationSwitch()">Registration</button>
         </form>
+    </div>
+    <div class="row" ng-show="registrationFlag.data == true" ng-init="showLoginExist = {data: false}">
+        <form class="col-md-offset-3 col-md-6" ng-submit="registerUser()" method="post">
+            <div class="row">
+                <h3 class="text-center">Registration</h3>
+            </div>
+            <div class="form-group">
+                <label for="regLogin" class="control-label">Login</label>
+                <input type="text" name="regLogin" id="regLogin" class="form-control" required/>
+                <p ng-show="showLoginExist.data">Login is already exist</p>
+            </div>
+            <div class="form-group">
+                <label for="regPassword" class="control-label">Password</label>
+                <input type="password" id="regPassword" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label for="regPasswordConfirm" class="control-label">Confirm password</label>
+                <input type="password" id="regPasswordConfirm" class="form-control" required/>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="button" class="btn btn-default" ng-click="switchSignIn()">Sign in</button>
+        </form>
+    </div>
+    <div class="row" ng-show="successRegistration.data">
+        <h3 class="text-center">Congratulation</h3>
+        <p>Now you need to <a href ng-click="switchSignIn()">Sing In</a></p>
     </div>
 </div>
 
-<div class="container"  ng-show="loginFlag == false">
+<div class="container" ng-show="loginFlag.data == false">
     <div class="row">
         <div class="col-md-offset-1 col-md-10">
-            <div class="panel panel-primary" ng-repeat="p in projects">
+            <div class="panel panel-primary" ng-repeat="p in projects | orderBy : orderProject">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-8">{{p.name}}</div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createProject"
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateProject"
                                     ng-click="projectToUpdate.data = p; editProject(projectToUpdate.data.name)">
                                 edit
                             </button>
@@ -123,14 +153,15 @@
                     <h4 class="modal-title">Edit task</h4>
                 </div>
                 <div class="modal-body col-md-12">
-                    <form>
+                    <form ng-submit="updateForTask(taskToUpdate.data)">
                         <div class="form-group">
                             <label for="taskName">Task name</label>
-                            <input type="text" class="form-control" id="taskName"/>
+                            <input type="text" class="form-control" id="taskName" required/>
                         </div>
                         <div class="form-group">
                             <label for="datapicker" class="control-label">Deadline</label>
-                            <input type="text" class="span2 form-control" id="datapicker">
+                            <input type="text" class="span2 form-control" id="datapicker"
+                                   pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$">
                         </div>
                         <div class="form-group">
                             <label for="selectPriority">Choose priority</label>
@@ -147,14 +178,13 @@
                                 <option value="Done">Done</option>
                             </select>
                         </div>
-
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="updateForTask(taskToUpdate.data)"
-                            data-dismiss="modal">Save
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
 
@@ -168,27 +198,46 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" ng-show="createEdit.data == true">Create project</h4>
-                    <h4 class="modal-title" ng-show="createEdit.data == false">Edit project</h4>
+                    <h4 class="modal-title">Create project</h4>
                 </div>
                 <div class="modal-body col-md-12">
-                    <form>
-                        <label for="projectName" class="control-label">Project name</label>
-                        <input type="text" class="form-control" id="projectName" ng-model="projectName"/>
+                    <form ng-submit="createProject(projectName)">
+                        <label for="projectCreateName" class="control-label">Project name</label>
+                        <input type="text" class="form-control" id="projectCreateName" ng-model="projectName" required/>
+                        <button type="submit" class="btn btn-primary">
+                            Create
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                            ng-click="createProject(projectName)" ng-show="createEdit.data == true">Create
-                    </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                            ng-click="updateProject(projectToUpdate.data)" ng-show="createEdit.data == false">Save
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
-
+        </div>
+    </div>
+    <!-- Modal create project-->
+    <div id="updateProject" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit project</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                    <form ng-submit="updateProject(projectToUpdate.data)">
+                        <label for="projectName" class="control-label">Project name</label>
+                        <input type="text" class="form-control" id="projectName" ng-model="projectName" required>
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -7,7 +7,6 @@ import com.taskManager.DAO.Enums.PriorityEnum;
 import com.taskManager.DAO.Enums.TaskStatus;
 import com.taskManager.DAO.ProjectDaoImpl;
 import com.taskManager.DAO.TaskDaoImpl;
-import com.taskManager.DAO.UserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,6 @@ import java.util.List;
 public class RestController {
 
     @Autowired
-    private UserDaoImpl userDao;
-
-    @Autowired
     private ProjectDaoImpl projectDao;
 
     @Autowired
@@ -34,6 +30,9 @@ public class RestController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private RegistrationService registrationService;
 
     @RequestMapping(value = "{user}/projects", method = RequestMethod.GET)
     ResponseEntity<List<Project>> getProjects(@PathVariable String user) {
@@ -86,11 +85,15 @@ public class RestController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     ResponseEntity<User> doLogin(@RequestBody User user) {
         return new ResponseEntity<User>(loginService.checkUser(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "addUser", method = RequestMethod.POST)
+    ResponseEntity<Boolean> addUser(@RequestBody User user) {
+        return new ResponseEntity<Boolean>(registrationService.checkLogin(user), HttpStatus.OK);
+    }
 
 
 

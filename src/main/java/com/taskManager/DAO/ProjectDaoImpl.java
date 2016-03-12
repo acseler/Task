@@ -48,7 +48,7 @@ public class ProjectDaoImpl {
     public List<Project> getProjects(String user) {
         long id = userDao.getUser(user).getId();
         return (List<Project>) hibernateTemplate.findByCriteria(DetachedCriteria.forClass(Project.class).add(
-                Restrictions.eq("user", id)).addOrder(Order.asc("name")));
+                Restrictions.eq("user", id)).addOrder(Order.asc("name").ignoreCase()));
     }
 
     @Transactional
