@@ -99,13 +99,11 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.modalClear = function () {
-        $scope.createEdit.data = true;
-        $('#projectName').val('');
+        $scope.projectCreateName = '';
     };
 
     $scope.editProject = function (projectName) {
-        $scope.createEdit.data = false;
-        $('#projectName').val(projectName);
+        $scope.projectNameUpdate = projectName;
     };
 
     $scope.updateProject = function (project) {
@@ -124,7 +122,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
 
     $scope.taskDone = function (task) {
         $scope.taskBuffer = task;
-        if (task.status == "Done") {
+        if ($scope.taskBuffer.status == "Done") {
             $scope.taskBuffer.status = "In process";
             $scope.updateTask($scope.taskBuffer);
         } else {
@@ -136,8 +134,8 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
 
     $scope.login = function () {
         $scope.user.id = '';
-        $scope.user.login = $('#login').val();
-        $scope.user.password = $('#password').val();
+        $scope.user.login = $scope.loginIn;
+        $scope.user.password = $scope.password;
         $http.post("login", $scope.user).success(function (data) {
             if (data.length == 0) {
                 $scope.loginSuccess = false;
@@ -153,7 +151,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.logOut = function () {
-        sessionStorage.loggedIn = false;
+        sessionStorage.loggedIn = 'false';
         sessionStorage.user = '';
         $scope.loginFlag.data = true;
     };
@@ -169,8 +167,8 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.registerUser = function () {
-        password = $('#regPassword').val();
-        passwordComfirm = $('#regPasswordConfirm').val();
+        password = $scope.regPassword;
+        passwordComfirm = $scope.regPasswordConfirm;
         if (password != passwordComfirm) {
             $('#regPassword').parent().addClass('has-error');
             $('#regPasswordConfirm').parent().addClass('has-error');
@@ -178,12 +176,12 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
             $('#regPassword').parent().removeClass('has-error');
             $('#regPasswordConfirm').parent().removeClass('has-error');
             $scope.user.id = '';
-            $scope.user.login = $('#regLogin').val();
+            $scope.user.login = $scope.regLogin;
             $scope.user.password = password;
             $http.post("addUser", $scope.user).success(function (data) {
-                $('#regLogin').val("");
-                $('#regPassword').val("");
-                $('#regPasswordConfirm').val("");
+                $scope.regLogin = '';
+                $scope.regPassword = '';
+                $scope.regPasswordConfirm = '';
                 if (!data) {
                     $scope.showLoginExist.data = true;
                 } else {
