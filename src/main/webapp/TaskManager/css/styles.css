@@ -1,6 +1,12 @@
 body {
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 .main-wrap {
@@ -12,7 +18,11 @@ body {
   background: -ms-linear-gradient(top, rgba(214,207,196,1) 0%, rgba(213,213,195,1) 41%, rgba(209,142,17,1) 67%, rgba(206,137,18,1) 100%);
   background: linear-gradient(to bottom, rgba(214,207,196,1) 0%, rgba(213,213,195,1) 41%, rgba(209,142,17,1) 67%, rgba(206,137,18,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6cfc4', endColorstr='#ce8912', GradientType=0 );
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   min-height: 100vh;
   min-width: 575px;
@@ -164,6 +174,9 @@ form h2,
 .add-task-wrap {
   border-bottom: 1px solid #ebefe5;
   color: #868686;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
 }
 .add-task-header{
@@ -221,7 +234,11 @@ form h2,
   outline: none;
 }
 .add-task-status {
+  -webkit-align-items: center;
   align-items: center;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   position: relative;
 }
@@ -287,6 +304,7 @@ form h2,
   display: none;
 }
 footer {
+  -webkit-align-self: flex-end;
   align-self: flex-end;
   border-bottom: 6px solid #333;
   color: #fff;
