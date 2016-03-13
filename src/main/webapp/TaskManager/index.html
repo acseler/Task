@@ -20,7 +20,7 @@
         <div class="container">
             <h1 class="text-center">SIMPLE TODO LISTS</h1>
             <p class="text-center">FROM RUBY GARAGE</p>
-            <button type="button" class="btn btn-primary" ng-show="loginFlag.data == false" ng-click="logOut()">Log out</button>
+            <button type="button" class="btn btn-primary hidden-elem" ng-show="loginFlag.data == false" ng-click="logOut()">Log out</button>
         </div>
     </header>
     <div class="container"  ng-show="loginFlag.data == true" ng-init="loginSuccess = true;
@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <input type="password" id="password" class="form-control input-lg" placeholder="Password"
                            ng-model="password" required/>
-                    <p ng-show="loginSuccess != true" class="loginIncorrect">Login or password incorrect</p>
+                    <p ng-show="loginSuccess != true" class="loginIncorrect hidden-elem">Login or password incorrect</p>
                 </div>
                 <div class="btn-wrap">
                     <button type="submit" class="btn btn-primary btn-lg col-xs-6">Log in</button>
@@ -48,7 +48,7 @@
                 </div>
             </form>
         </div>
-        <div class="row" id="RegistrationForm" ng-show="registrationFlag.data == true" ng-init="showLoginExist = {data: false}">
+        <div class="row hidden-elem" id="RegistrationForm" ng-show="registrationFlag.data == true" ng-init="showLoginExist = {data: false}">
             <form class="col-sm-offset-3 col-sm-6" ng-submit="registerUser()" method="post">
                 <div class="row">
                     <h2 class="text-center">Registration</h2>
@@ -72,13 +72,13 @@
                 </div>
             </form>
         </div>
-        <div class="reg-success-mess text-center row" ng-show="successRegistration.data">
+        <div class="reg-success-mess text-center row hidden-elem" ng-show="successRegistration.data">
             <h2>Congratulation</h2>
             <p>Now you need to <a href ng-click="switchSignIn()">Sing In</a></p>
         </div>
     </div>
 
-    <div class="content container" id="TaskData" ng-show="loginFlag.data == false">
+    <div class="content container hidden-elem" id="TaskData" ng-show="loginFlag.data == false">
         <div class="panel panel-primary" ng-repeat="p in projects">
             <div class="panel-heading">
                 <div class="row">

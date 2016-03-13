@@ -283,6 +283,9 @@ form h2,
 .modal-body {
   overflow: hidden;
 }
+.hidden-elem {
+  display: none;
+}
 footer {
   align-self: flex-end;
   border-bottom: 6px solid #333;
