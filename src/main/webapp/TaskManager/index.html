@@ -4,219 +4,203 @@
     <meta charset="UTF-8">
     <title>SIMPLE TODO LISTS</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/bootstrap-skin.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta name="viewport" content="width=device-width,
-									initial-scale=1.0,
-									maximum-scale=1.0,
-									user-scalable=no">
+          initial-scale=1.0,
+          maximum-scale=1.0,
+          user-scalable=no">
 </head>
 <body ng-app="TaskManager" ng-controller="projectController" ng-init="taskToUpdate = {data: ''};
-                                                                        projectToUpdate = {data: ''};
-                                                                        createEdit = {data: ''};
-                                                                        loginFlag = {data: true}">
-<div class="container">
-    <div class="row">
-        <header class="header">
-            <div class="container">
-                <h3 class="text-center"><strong>SIMPLE TODO LISTS</strong></h3>
-                <p class="text-center">FROM RUBY GARAGE</p>
-                <button type="button" class="btn btn-primary" ng-show="loginFlag.data == false" ng-click="logOut()">Log out</button>
-            </div>
-        </header>
-    </div>
-</div>
-
-<div class="container" ng-show="loginFlag.data == true" ng-init="loginSuccess = true;
+        projectToUpdate = {data: ''};
+        createEdit = {data: ''};
+        loginFlag = {data: true};">
+<div class="main-wrap">
+    <header class="header">
+        <div class="container">
+            <h1 class="text-center">SIMPLE TODO LISTS</h1>
+            <p class="text-center">FROM RUBY GARAGE</p>
+            <button type="button" class="btn btn-primary" ng-show="loginFlag.data == false" ng-click="logOut()">Log out</button>
+        </div>
+    </header>
+    <div class="container" ng-show="loginFlag.data == true" ng-init="loginSuccess = true;
                                                                  registrationFlag = {data: false};
-                                                                 successRegistration = {data: false}">
-    <div class="row" ng-show="registrationFlag.data == false">
-        <form class="col-md-offset-3 col-md-6" ng-submit="login()">
-            <div class="row">
-                <h3 class="text-center">
-                    Welcome to Task manager
-                </h3>
-            </div>
-            <div class="form-group">
-                <label for="login" class="control-label">Login</label>
-                <input type="text" id="login" class="form-control" required/>
-            </div>
-            <div class="form-group">
-                <label for="password" class="control-label">Password</label>
-                <input type="password" id="password" class="form-control" required/>
-                <p ng-show="loginSuccess != true" class="has-error">Login or password incorrect</p>
-            </div>
-            <button type="submit" class="btn btn-primary col-md-12">Log in</button>
-            <button type="button" class="btn btn-default col-md-12" ng-click="registrationSwitch()">Registration</button>
-        </form>
+                  successRegistration = {data: false}">
+        <div class="row" ng-show="registrationFlag.data == false">
+            <form class="col-sm-offset-3 col-sm-6" ng-submit="login()">
+                <div class="row">
+                    <h2 class="text-center">
+                        Welcome to Task manager
+                    </h2>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="login" class="form-control input-lg" placeholder="Login" required/>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control input-lg" placeholder="Password" required/>
+                    <p ng-show="loginSuccess != true" class="has-error">Login or password incorrect</p>
+                </div>
+                <div class="btn-wrap">
+                    <button type="submit" class="btn btn-primary btn-lg col-xs-6">Log in</button>
+                    <button type="button" class="btn btn-default psevdo-link" ng-click="registrationSwitch()">Registration</button>
+                </div>
+            </form>
+        </div>
+        <div class="row" ng-show="registrationFlag.data == true" ng-init="showLoginExist = {data: false}">
+            <form class="col-sm-offset-3 col-sm-6" ng-submit="registerUser()" method="post">
+                <div class="row">
+                    <h2 class="text-center">Registration</h2>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="regLogin" id="regLogin" class="form-control input-lg" placeholder="Login" required/>
+                    <p ng-show="showLoginExist.data">Login is already exist</p>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" class="form-control input-lg" placeholder="Password" required/>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPasswordConfirm" class="form-control input-lg" placeholder="Confirm password" required/>
+                </div>
+                <div class="btn-wrap">
+                    <button type="submit" class="btn btn-primary btn-lg col-xs-6">Register</button>
+                    <button type="button" class="btn btn-default psevdo-link" ng-click="switchSignIn()">Sign in</button>
+                </div>
+            </form>
+        </div>
+        <div class="reg-success-mess text-center row" ng-show="successRegistration.data">
+            <h2>Congratulation</h2>
+            <p>Now you need to <a href ng-click="switchSignIn()">Sing In</a></p>
+        </div>
     </div>
-    <div class="row" ng-show="registrationFlag.data == true" ng-init="showLoginExist = {data: false}">
-        <form class="col-md-offset-3 col-md-6" ng-submit="registerUser()" method="post">
-            <div class="row">
-                <h3 class="text-center">Registration</h3>
-            </div>
-            <div class="form-group">
-                <label for="regLogin" class="control-label">Login</label>
-                <input type="text" name="regLogin" id="regLogin" class="form-control" required/>
-                <p ng-show="showLoginExist.data">Login is already exist</p>
-            </div>
-            <div class="form-group">
-                <label for="regPassword" class="control-label">Password</label>
-                <input type="password" id="regPassword" class="form-control" required/>
-            </div>
-            <div class="form-group">
-                <label for="regPasswordConfirm" class="control-label">Confirm password</label>
-                <input type="password" id="regPasswordConfirm" class="form-control" required/>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-            <button type="button" class="btn btn-default" ng-click="switchSignIn()">Sign in</button>
-        </form>
-    </div>
-    <div class="row" ng-show="successRegistration.data">
-        <h3 class="text-center">Congratulation</h3>
-        <p>Now you need to <a href ng-click="switchSignIn()">Sing In</a></p>
-    </div>
-</div>
 
-<div class="container" ng-show="loginFlag.data == false">
-    <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            <div class="panel panel-primary" ng-repeat="p in projects | orderBy : orderProject">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-8">{{p.name}}</div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateProject"
-                                    ng-click="projectToUpdate.data = p; editProject(projectToUpdate.data.name)">
-                                edit
-                            </button>
-                            <button type="button" class="btn btn-default" ng-click="deleteProject(p)">delete</button>
-                        </div>
+    <div class="content container" ng-show="loginFlag.data == false">
+        <div class="panel panel-primary" ng-repeat="p in projects">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-8">{{p.name}}</div>
+                    <div class="edit-btns-group">
+                        <button type="button" class="edit-btn text-hide btn btn-default" data-toggle="modal" data-target="#updateProject"
+                                ng-click="projectToUpdate.data = p; editProject(projectToUpdate.data.name)">
+                            edit
+                        </button>
+                        <button type="button" class="del-btn text-hide btn btn-default" ng-click="deleteProject(p)">delete</button>
                     </div>
                 </div>
-                <table class="table">
-                    <thead>
-                    <input type="text" ng-model="taskName"/>
-                    <button class="btn btn-primary btn-sm" ng-click="addTask(p.id, taskName)">
+            </div>
+            <div class="add-task-wrap add-task-header">
+                <div class="add-task-cell col-xs-1">
+                    <div class="add-btn"></div>
+                </div>
+                <div class="add-task-cell col-xs-9">
+                    <input type="text" class="form-control" ng-model="taskName"/>
+                </div>
+                <div class="add-task-cell col-xs-2">
+                    <button class="btn btn-success" ng-click="addTask(p.id, taskName)">
                         Add task
                     </button>
-                    </thead>
-                    <tr ng-repeat="task in p.tasks | orderBy:'-priority'" ng-click="rowSelected(task)">
-                        <td>
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <input type="checkbox" id="taskStatus" ng-checked="task.status == 'Done'" ng-click="taskDone(task)"/>
-                                </div>
-                                <div class="col-md-4">
-                                    {{task.name}}
-                                </div>
-                                <div class="col-md-2">
-                                    {{task.deadlineDate}}
-                                </div>
-                                <div class="col-md-1">
-                                    <div class="full-circle red" ng-show="task.priority == 3"></div>
-                                    <div class="full-circle yellow" ng-show="task.priority == 2"></div>
-                                    <div class="full-circle green" ng-show="task.priority == 1"></div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div ng-show="true">
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModal"
-                                                ng-click="taskToUpdate.data = task; callEditTask(taskToUpdate.data);">edit
-                                        </button>
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#deleteModal"
-                                                ng-click="deleteTask(task)">delete
-                                        </button>
-                                    </div>
-                                </div>
+                </div>
+            </div>
+            <div class="add-task-wrap" ng-repeat="task in p.tasks| orderBy:'-priority'" ng-click="rowSelected(task)">
+                <div class="add-task-cell add-task-status col-xs-1">
+                    <input type="checkbox" id="taskStatus" ng-checked="task.status == 'Done'" ng-click="taskDone(task)" />
+                </div>
+                <div class="add-task-cell add-task-name col-xs-9">
+                    <span>{{task.name}}</span>
+                    <div class="dead-line" ng-if="task.deadlineDate != undefined">Deadline: {{task.deadlineDate}}</div>
+                </div>
+                <div class="add-task-cell col-xs-2">
+                    <div class="full-circle red" ng-show="task.priority == 3"></div>
+                    <div class="full-circle yellow" ng-show="task.priority == 2"></div>
+                    <div class="full-circle green" ng-show="task.priority == 1"></div>
+                    <div ng-show="true" class="edit-btns-group">
+                        <button class="edit-btn text-hide btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModal"
+                                ng-click="taskToUpdate.data = task; callEditTask(taskToUpdate.data);">edit
+                        </button>
+                        <button class="del-btn text-hide btn btn-primary btn-sm" data-toggle="modal" data-target="#deleteModal"
+                                ng-click="deleteTask(task)">delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center row">
+            <div class="col-xs-offset-4 col-xs-4">
+                <button class="add-btn btn btn-primary btn-lg" data-toggle="modal" data-target="#createProject" ng-click="modalClear()">Add TODO List</button>
+            </div>
+        </div>
+
+        <!-- Modal  update task-->
+        <div id="updateModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit task</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng-submit="updateForTask(taskToUpdate.data)">
+                            <div class="form-group">
+                                <label for="taskName">Task name</label>
+                                <input type="text" class="form-control" id="taskName" ng-model="taskNameUpdate" required/>
                             </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <button class="btn btn-primary btn-lg col-md-12" data-toggle="modal" data-target="#createProject" ng-click="modalClear()">Add TODO List</button>
-        </div>
-    </div>
-
-    <!-- Modal  update task-->
-    <div id="updateModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit task</h4>
-                </div>
-                <div class="modal-body col-md-12">
-                    <form ng-submit="updateForTask(taskToUpdate.data)">
-                        <div class="form-group">
-                            <label for="taskName">Task name</label>
-                            <input type="text" class="form-control" id="taskName" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="datapicker" class="control-label">Deadline</label>
-                            <input type="text" class="span2 form-control" id="datapicker"
+                            <div class="form-group">
+                                <label for="datapicker" class="control-label">Deadline</label>
+                                <input type="text" class="span2 form-control" id="datapicker" ng-model="datapickeModel"
                                    pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$">
-                        </div>
-                        <div class="form-group">
-                            <label for="selectPriority">Choose priority</label>
-                            <select class="form-control" id="selectPriority">
-                                <option value="1">Low</option>
-                                <option value="2">Medium</option>
-                                <option value="3">High</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="status" class="control-label">Status</label>
-                            <select class="form-control" id="status">
-                                <option value="In process">In process</option>
-                                <option value="Done">Done</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            Save
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </form>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectPriority">Choose priority</label>
+                                <select class="form-control" id="selectPriority">
+                                    <option value="1">Low</option>
+                                    <option value="2">Medium</option>
+                                    <option value="3">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="control-label">Status</label>
+                                <select class="form-control" id="status">
+                                    <option value="In process">In process</option>
+                                    <option value="Done">Done</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                </div>
+
             </div>
-
         </div>
-    </div>
 
-    <!-- Modal create project-->
-    <div id="createProject" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Create project</h4>
+        <!-- Modal create project-->
+        <div id="createProject" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Create project</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng-submit="createProject(projectNameCreate)">
+                            <label for="projectCreateName" class="control-label">Project name</label>
+                            <input type="text" class="form-control" id="projectCreateName" ng-model="projectNameCreate" required/>
+                            <button type="submit" class="btn btn-primary">
+                                Create
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body col-md-12">
-                    <form ng-submit="createProject(projectNameCreate)">
-                        <label for="projectCreateName" class="control-label">Project name</label>
-                        <input type="text" class="form-control" id="projectCreateName" ng-model="projectNameCreate" required/>
-                        <button type="submit" class="btn btn-primary">
-                            Create
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
 
-                </div>
             </div>
         </div>
     </div>
-    <!-- Modal create project-->
     <div id="updateProject" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -225,7 +209,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Edit project</h4>
                 </div>
-                <div class="modal-body col-md-12">
+                <div class="modal-body">
                     <form ng-submit="updateProject(projectToUpdate.data)">
                         <label for="projectName" class="control-label">Project name</label>
                         <input type="text" class="form-control" id="projectName" ng-model="projectNameUpdate" required>
@@ -235,21 +219,18 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                </div>
             </div>
         </div>
     </div>
+    <footer>
+        <div class="container">
+            <p class="text-center">&copy; Ruby Garage</p>
+        </div>
+    </footer>
 </div>
-<footer>
-    <div class="container">
-        <p class="text-center">&copy; Ruby Garage</p>
-    </div>
-</footer>
 <script src="scripts/jquery-1.12.1.min.js"></script>
 <script src="scripts/bootstrap.min.js"></script>
 <script src="scripts/angular.js"></script>
-<script src="scripts/angular-animate.js"></script>
 <script src="scripts/bootstrap-datepicker.js"></script>
 <script src="scripts/app.js"></script>
 <script src="scripts/taskManager.js"></script>

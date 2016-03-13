@@ -1,0 +1,55 @@
+.container {
+  min-width: 395px;
+}
+a {
+  color: #395ea1;
+}
+.btn,
+.input-lg,
+.panel-primary {
+  border-radius: 2px;
+}
+.panel {
+  margin-bottom: 4em;
+}
+.panel-primary {
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border: none;
+  -webkit-box-shadow: 0 1px 1px #7e7e7e;
+  box-shadow: 0 1px 1px #7e7e7e;
+  overflow: hidden;
+}
+.panel-heading {
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+  font-size: 1.2em;
+  padding-left: 42px;
+  position: relative;
+}
+.panel-heading:before {
+  background: url(../img/icon-to-do-list.svg) center no-repeat;
+  background-size: 100%;
+  content: '';
+  height: 22px;
+  left: 10px;
+  position: absolute;
+  top: 11px;
+  width: 22px;
+}
+.btn-primary,
+.panel-primary > .panel-heading {
+  background: rgba(77,126,189,1);
+  background: -moz-linear-gradient(top, rgba(77,126,189,1) 0%, rgba(51,96,156,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(77,126,189,1)), color-stop(100%, rgba(51,96,156,1)));
+  background: -webkit-linear-gradient(top, rgba(77,126,189,1) 0%, rgba(51,96,156,1) 100%);
+  background: -o-linear-gradient(top, rgba(77,126,189,1) 0%, rgba(51,96,156,1) 100%);
+  background: -ms-linear-gradient(top, rgba(77,126,189,1) 0%, rgba(51,96,156,1) 100%);
+  background: linear-gradient(to bottom, rgba(77,126,189,1) 0%, rgba(51,96,156,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d7ebd', endColorstr='#33609c', GradientType=0 );
+}
+.form-control:focus {
+  border-color: #4c7dbc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(62, 108, 170, 0.7);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(62, 108, 170, 0.7);
+}

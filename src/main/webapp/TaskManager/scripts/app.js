@@ -46,9 +46,11 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.callEditTask = function (task) {
-        $('#taskName').val(task.name);
+        $scope.datapickeModel = '';
+        $scope.taskNameUpdate = task.name;
+        console.log(task.deadlineDate != null);
         if (task.deadlineDate != null) {
-            $('#datapicker').val(task.deadlineDate);
+            $scope.datapickeModel = task.deadlineDate;
         }
         priority = $('#selectPriority');
         switch (task.priority) {
@@ -80,6 +82,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
         task.status = $('#status').val();
         $scope.updateTask(task);
         $('#updateModal').modal('hide');
+        $scope.datapickeModel = '';
     };
 
     $scope.deleteTask = function (task) {
@@ -111,7 +114,6 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
             $scope.fetchProjects();
             $('#updateProject').modal('hide');
         });
-
     };
 
     $scope.deleteProject = function (project) {
