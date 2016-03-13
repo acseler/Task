@@ -201,9 +201,9 @@
                     <h4 class="modal-title">Create project</h4>
                 </div>
                 <div class="modal-body col-md-12">
-                    <form ng-submit="createProject(projectName)">
+                    <form ng-submit="createProject(projectNameCreate)">
                         <label for="projectCreateName" class="control-label">Project name</label>
-                        <input type="text" class="form-control" id="projectCreateName" ng-model="projectName" required/>
+                        <input type="text" class="form-control" id="projectCreateName" ng-model="projectNameCreate" required/>
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
@@ -228,7 +228,7 @@
                 <div class="modal-body col-md-12">
                     <form ng-submit="updateProject(projectToUpdate.data)">
                         <label for="projectName" class="control-label">Project name</label>
-                        <input type="text" class="form-control" id="projectName" ng-model="projectName" required>
+                        <input type="text" class="form-control" id="projectName" ng-model="projectNameUpdate" required>
                         <button type="submit" class="btn btn-primary">
                             Save
                         </button>

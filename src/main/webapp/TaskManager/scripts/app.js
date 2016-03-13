@@ -12,7 +12,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
         });
     };
     $scope.updateTask = function (task) {
-        $http.post($scope.user.name + "/project/task/update", task).success(function (data) {
+        $http.post($scope.user.login + "/project/task/update", task).success(function (data) {
             $scope.fetchProjects();
         });
     };
@@ -23,7 +23,6 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
             $scope.fetchProjects();
             $scope.$watch('loginFlag', function () {
                 $scope.loginFlag.data = false;
-
             });
         }
     };
@@ -39,7 +38,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
                 $scope.task.status = null;
                 $scope.task.priority = null;
                 $scope.task.project = projectId;
-                $http.post($scope.user.name + "/project/task/add", $scope.task).success(function (data) {
+                $http.post($scope.user.login + "/project/task/add", $scope.task).success(function () {
                     $scope.fetchProjects();
                 });
             }
@@ -84,19 +83,16 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.deleteTask = function (task) {
-        $http.post($scope.user.name + "/project/task/delete", task).success(function (data) {
+        $http.post($scope.user.login + "/project/task/delete", task).success(function () {
             $scope.fetchProjects();
         });
     };
 
-    $scope.createProject = function(projectName) {
-        $('#projectCreateName').val('');
-        if (name !== undefined) {
-            $http.post($scope.user.id + "/project/create/" + projectName).success(function(data) {
-                $scope.fetchProjects();
-            });
-            $('#createProject').modal('hide');
-        }
+    $scope.createProject = function (projectName) {
+        $http.post($scope.user.id + "/project/create/" + projectName).success(function () {
+            $scope.fetchProjects();
+        });
+        $('#createProject').modal('hide');
     };
 
     $scope.modalClear = function () {
@@ -110,8 +106,8 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.updateProject = function (project) {
-        project.name = $('#projectName').val();
-        $http.post($scope.user.name + "/project/update", project).success(function (data) {
+        project.name = $scope.projectNameUpdate;
+        $http.post($scope.user.login + "/project/update", project).success(function () {
             $scope.fetchProjects();
             $('#updateProject').modal('hide');
         });
@@ -119,7 +115,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
     };
 
     $scope.deleteProject = function (project) {
-        $http.post($scope.user.name + "/project/delete", project).success(function (data) {
+        $http.post($scope.user.login + "/project/delete", project).success(function () {
             $scope.fetchProjects();
         });
     };
@@ -197,7 +193,7 @@ app.controller('projectController', ['$http', '$scope', function ($http, $scope)
         }
     };
 
-    $scope.orderProject = function(project) {
+    $scope.orderProject = function (project) {
         return project.name.toLowerCase() + project.name.toLowerCase();
     }
 
